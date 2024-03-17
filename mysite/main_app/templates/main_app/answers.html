@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Answers</h1>
+    {% if all_answers %}
+    <ul>
+        {% for answer in all_answers %}
+        <li>
+            <table>
+                <tr>
+                    <th>respondent</th>
+                    <td>{{answer.respondent.name}}</td>
+                </tr>
+                <tr>
+                    <th>speaker_name</th>
+                    <td>{{answer.speaker_name.speaker_name}}</td>
+                </tr>
+                <tr>
+                    <th>model_name</th>
+                    <td>{{answer.model_name.model_name}}</td>
+                </tr>
+                <tr>
+                    <th>kind</th>
+                    <td>{{answer.kind.kind}}</td>
+                </tr>
+                <tr>
+                    <th>naturalness</th>
+                    <td>{{answer.naturalness}}</td>
+                </tr>
+                <tr>
+                    <th>intelligibility</th>
+                    <td>{{answer.intelligibility}}</td>
+                </tr>
+            </table>
+        </li>
+        <hr>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+
+</html>

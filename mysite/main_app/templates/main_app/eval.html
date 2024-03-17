@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="/main_app/eval" method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset %}
+        <p>{{ form.url }}</p>
+        {% load static %}
+        <audio src="{% static form.url.value %}" controls controlslist="nodownload"></audio>
+        <!-- <audio src="{{ form.url.value }}" controls controlslist="nodownload"></audio> -->
+        <ul>
+            <li>{{ form.naturalness }}</li>
+            <li>{{ form.intelligibility }}</li>
+        </ul>
+        <hr>
+        {% endfor %}
+        <input type="submit">
+    </form>
+</body>
+
+</html>
