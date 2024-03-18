@@ -15,10 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy local code to the container image.
 COPY ./mysite .
 
-# Environment variables
-# ENV GOOGLE_CLOUD_PROJECT="django-416415"
-# ENV GOOGLE_APPLICATION_CREDENTIALS="/app/django-416415-3d48fa009149.json"
-
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.
 # For environments with multiple CPU cores, increase the number of workers

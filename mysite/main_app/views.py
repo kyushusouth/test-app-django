@@ -1,8 +1,6 @@
 import random
 import uuid
-from pathlib import Path
 
-from django.contrib.staticfiles import finders
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -12,10 +10,9 @@ from .models import Answers, Respondents, SampleMetaData
 
 
 def get_wav_files():
-    result = finders.find("main_app/wav_files_encrypted")
-    urls = list(Path(result).glob("*.wav"))
-    urls = ["/".join(url.parts[-3:]) for url in urls]
-    urls = urls[:2]
+    metadata = SampleMetaData.objects.all()
+    urls = [f"main_app/wav_files_encrypted/{x.file_name}.wav" for x in metadata]
+    urls = urls[:5]
     return urls
 
 
@@ -25,7 +22,9 @@ def index(request):
 
 def respondents(request):
     all_respondents = Respondents.objects.all()
-    return render(request, "main_app/respondents.html", {"all_respondents": all_respondents})
+    return render(
+        request, "main_app/respondents.html", {"all_respondents": all_respondents}
+    )
 
 
 def answers(request):
@@ -54,9 +53,7 @@ def eval(request):
                 intelligibility = form["intelligibility"]
                 url = form["url"]
                 file_name = url.split("/")[-1].split(".")[0]
-                sample_meta_data = SampleMetaData.objects.get(
-                    file_name=file_name
-                )
+                sample_meta_data = SampleMetaData.objects.get(file_name=file_name)
                 answer = Answers(
                     respondent=respondent,
                     sample_meta_data=sample_meta_data,
