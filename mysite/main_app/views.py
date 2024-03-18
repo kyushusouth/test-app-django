@@ -8,13 +8,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from .forms import AnswerForm
-from .models import Answers, Kinds, ModelNames, Respondents, SampleNames, SpeakerNames
+from .models import Answers, Respondents, SampleMetaData
 
 
 def get_wav_files():
-    result = finders.find("main_app/wav_files")
-    urls = list(Path(result).glob("**/*.wav"))
-    urls = ["/".join(url.parts[-8:]) for url in urls]   
+    result = finders.find("main_app/wav_files_encrypted")
+    urls = list(Path(result).glob("*.wav"))
+    urls = ["/".join(url.parts[-3:]) for url in urls]
     urls = urls[:2]
     return urls
 
@@ -53,30 +53,13 @@ def eval(request):
                 naturalness = form["naturalness"]
                 intelligibility = form["intelligibility"]
                 url = form["url"]
-                url_split = url.split("/")
-                speaker_name = url_split[-3]
-                model_name = url_split[-5]
-                sample_name = url_split[-2]
-                kind = url_split[-1].split(".wav")[0]
-
-                speaker_name = SpeakerNames.objects.get(
-                    speaker_name=speaker_name,
-                )
-                model_name = ModelNames.objects.get(
-                    model_name=model_name,
-                )
-                sample_name = SampleNames.objects.get(
-                    sample_name=sample_name,
-                )
-                kind = Kinds.objects.get(
-                    kind=kind,
+                file_name = url.split("/")[-1].split(".")[0]
+                sample_meta_data = SampleMetaData.objects.get(
+                    file_name=file_name
                 )
                 answer = Answers(
                     respondent=respondent,
-                    speaker_name=speaker_name,
-                    model_name=model_name,
-                    sample_name=sample_name,
-                    kind=kind,
+                    sample_meta_data=sample_meta_data,
                     naturalness=naturalness,
                     intelligibility=intelligibility,
                 )

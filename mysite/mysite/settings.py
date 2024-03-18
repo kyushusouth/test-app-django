@@ -1,5 +1,4 @@
 import io
-import json
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -8,7 +7,6 @@ from urllib.parse import urlparse
 import environ
 import google.auth
 from google.cloud import secretmanager
-from google.oauth2 import service_account
 
 # project directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,11 +137,6 @@ USE_TZ = True
 
 # static files storage
 STATIC_URL = "static/"
-# credentials are probably needed to access through signed url
-# service_account_info = json.load(open(env("GOOGLE_APPLICATION_CREDENTIALS")))
-# credentials = service_account.Credentials.from_service_account_info(
-#     service_account_info
-# )
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.gcloud.GooglfeCloudStorage",
