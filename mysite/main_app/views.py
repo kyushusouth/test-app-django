@@ -91,7 +91,7 @@ def thanks(request):
 @require_http_methods(["GET", "POST"])
 def eval(request):
     metadata = get_list_or_404(SampleMetaData)
-    urls = [f"main_app/wav_files_encrypted/{x.file_name}.wav" for x in metadata]
+    urls = [x.file_path.url for x in metadata]
     urls = urls[:5]
     AnswerFormSet = formset_factory(AnswerForm, extra=len(urls))
     if request.method == "POST":

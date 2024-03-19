@@ -1,4 +1,3 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -15,6 +14,7 @@ class Respondents(models.Model):
 
 
 class SampleMetaData(models.Model):
+    file_path = models.FileField(upload_to="")
     file_name = models.CharField(max_length=36, unique=True, null=False, blank=False)
     speaker_name = models.CharField(max_length=100, null=False, blank=False)
     model_name = models.CharField(max_length=100, null=False, blank=False)

@@ -1,6 +1,5 @@
 import io
 import os
-from datetime import timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -135,21 +134,27 @@ USE_L10N = True
 USE_TZ = True
 
 
-# static files storage
+# file storage
+# media can be path specified by location, but static must be STATIC_URL
 STATIC_URL = "static/"
 STORAGES = {
+    # media
     "default": {
-        "BACKEND": "storages.backends.gcloud.GooglfeCloudStorage",
-        "OPTIONS": {},
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        "OPTIONS": {
+            "bucket_name": "test_media_storage",
+            "default_acl": "publicRead",
+            "querystring_auth": False,
+            "location": "",
+        },
     },
+    # static
     "staticfiles": {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
         "OPTIONS": {
             "bucket_name": env("DJANGO_STATIC_FILES_BUCKET_NAME"),
-            "credentials": None,
             "default_acl": "publicRead",
             "querystring_auth": False,
-            "expiration": timedelta(seconds=86400),
         },
     },
 }
