@@ -1,4 +1,10 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+
+# class CustomUser(AbstractUser):
+#     sex = models.CharField(max_length=1, null=False, blank=False)
+#     age = models.SmallIntegerField(null=False, blank=False)
 
 
 class Respondents(models.Model):

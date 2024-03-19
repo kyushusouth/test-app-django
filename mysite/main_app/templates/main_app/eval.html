@@ -15,7 +15,6 @@
         <p>{{ form.url }}</p>
         {% load static %}
         <audio src="{% static form.url.value %}" controls controlslist="nodownload"></audio>
-        <!-- <audio src="{{ form.url.value }}" controls controlslist="nodownload"></audio> -->
         <ul>
             <li>{{ form.naturalness }}</li>
             <li>{{ form.intelligibility }}</li>

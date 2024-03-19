@@ -9,6 +9,12 @@
 
 <body>
     <h1>Main App</h1>
+    <a href="{% url 'main_app:news_year_archive' 2012 %}">2012 Archive</a>
+    <ul>
+        {% for yearvar in year_list %}
+        <li><a href="{% url 'main_app:news_year_archive' yearvar %}">{{ yearvar }} Archive</a></li>
+        {% endfor %}
+    </ul>
 </body>
 
 </html>
