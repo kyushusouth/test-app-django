@@ -1,5 +1,7 @@
 from django import forms
 
+from .models import SampleMetaData
+
 
 class UserForm(forms.Form):
     username = forms.CharField(label="Your name", max_length=100)
@@ -43,3 +45,4 @@ class AnswerForm(forms.Form):
         initial="",
         widget=forms.widgets.HiddenInput,
     )
+    samplemetadata = forms.ModelChoiceField(queryset=SampleMetaData.objects.all())
