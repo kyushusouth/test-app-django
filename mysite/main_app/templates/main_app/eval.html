@@ -1,27 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}Evaluation Page{% endblock title %}
 
-<body>
-    <form action="/main_app/eval" method="post">
-        {% csrf_token %}
-        {{ formset.management_form }}
-        {% for form in formset %}
-        <p>{{ form.url }}</p>
-        <audio src="{{ form.url.value }}" controls controlslist="nodownload"></audio>
-        <ul>
-            <li>{{ form.naturalness }}</li>
-            <li>{{ form.intelligibility }}</li>
-        </ul>
-        <hr>
-        {% endfor %}
-        <input type="submit">
-    </form>
-</body>
-
-</html>
+{% block content %}
+<form action="/main_app/eval" method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <p>{{ form.url }}</p>
+    <audio src="{{ form.url.value }}" controls controlslist="nodownload"></audio>
+    <ul>
+        <li>{{ form.naturalness }}</li>
+        <li>{{ form.intelligibility }}</li>
+    </ul>
+    <hr>
+    {% endfor %}
+    <input type="submit">
+</form>
+{% endblock content%}
