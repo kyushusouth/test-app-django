@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}Home{% endblock title %}
 
-<body>
-    <h1>Main App</h1>
-    <a href="{% url 'main_app:news_year_archive' 2012 %}">2012 Archive</a>
-    <ul>
-        {% for yearvar in year_list %}
-        <li><a href="{% url 'main_app:news_year_archive' yearvar %}">{{ yearvar }} Archive</a></li>
-        {% endfor %}
-    </ul>
-</body>
-
-</html>
+{% block content %}
+<h1>Home Page</h1>
+{% endblock content%}
