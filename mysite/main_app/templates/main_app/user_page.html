@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %} User Page{% endblock title %}
 
-<body>
-    <h1>User Page</h1>
-    <h2>{{key1}}</h2>
-    <ul>
-        <li>
-            {{user.username}}
-        </li>
-        <li>
-            {{user.password}}
-        </li>
-    </ul>
-</body>
+{% block content %}
+<h1>User Page</h1>
+<ul>
+    <li>
+        {{ user.username}}
+    </li>
+    <li>
+        {{ user.email}}
+    </li>
+    <li>
+        {{ user.password}}
+    </li>
+</ul>
 
-</html>
+<form method="post" action="{% url 'main_app:logout' %}">
+    {% csrf_token %}
+    <button type="submit">ログアウト</button>
+</form>
+{% endblock content%}

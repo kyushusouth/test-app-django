@@ -2,9 +2,10 @@ import random
 import uuid
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.forms import formset_factory
-from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
+from django.shortcuts import get_list_or_404, redirect, render
 from django.views import View
 from django.views.decorators.http import require_http_methods
 from django.views.generic.list import ListView
@@ -77,10 +78,9 @@ def login_user(request):
         return render(request, "main_app/login_user.html", {"form": form})
 
 
-@require_http_methods(["GET"])
-def user_page(request, id: int, key1: str):
-    user = get_object_or_404(User, pk=id)
-    return render(request, "main_app/user_page.html", {"user": user, "key1": key1})
+@login_required
+def user_page(request):
+    return render(request, "main_app/user_page.html", {"user": request.user})
 
 
 class CheckRespondentsView(ListView):
