@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Check Answers{% endblock title %}
+
+{% block content %}
+<h1>Check Answers</h1>
+<ul>
+    {% for answers in answers_list %}
+    <li>
+        <ul>
+            <li>
+                <ul>
+                    <li>
+                        {{ answers.respondent.name }}
+                    </li>
+                    <li>
+                        {{ answers.respondent.sex }}
+                    </li>
+                    <li>
+                        {{ answers.respondent.age }}
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        {{ answers.sample_meta_data.file_path }}
+                    </li>
+                </ul>
+            </li>
+            <li>
+                {{ answers.naturalness}}
+            </li>
+            <li>
+                {{ answers.intelligibility }}
+            </li>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content%}

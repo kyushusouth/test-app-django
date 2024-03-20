@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Check Respondents{% endblock title %}
+
+{% block content %}
+<h1>Check Respondents</h1>
+<ul>
+    {% for respondents in respondents_list %}
+    <li>
+        <ul>
+            <li>
+                {{ respondents.created_at}}
+            </li>
+            <li>
+                {{ respondents.name}}
+            </li>
+            <li>
+                {{ respondents.sex}}
+            </li>
+            <li>
+                {{ respondents.age}}
+            </li>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content%}

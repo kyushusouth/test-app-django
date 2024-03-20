@@ -1,27 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}Check User{% endblock title %}
 
-<body>
-    <h1>Check User</h1>
-    {% for user in users %}
-    <ul>
-        <li>
-            {{ user.username}}
-        </li>
-        <li>
-            {{ user.email}}
-        </li>
-        <li>
-            {{ user.password}}
-        </li>
-    </ul>
+{% block content %}
+<h1>Check User</h1>
+<ul>
+    {% for user in user_list %}
+    <li>
+        <ul>
+            <li>
+                {{ user.username}}
+            </li>
+            <li>
+                {{ user.email}}
+            </li>
+            <li>
+                {{ user.password}}
+            </li>
+        </ul>
+    </li>
     {% endfor %}
-</body>
-
-</html>
+</ul>
+{% endblock content%}
