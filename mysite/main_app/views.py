@@ -98,11 +98,13 @@ class CheckAnswersView(ListView):
 
 
 @require_http_methods(["GET"])
+@login_required
 def thanks(request):
     return render(request, "main_app/thanks.html")
 
 
 @require_http_methods(["GET", "POST"])
+@login_required
 def eval(request):
     metadata = get_list_or_404(SampleMetaData)
     urls = [x.file_path.url for x in metadata]
