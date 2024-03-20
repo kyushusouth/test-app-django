@@ -5,10 +5,17 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.forms import formset_factory
 from django.shortcuts import get_list_or_404, get_object_or_404, redirect, render
-from django.views.decorators.http import condition, require_http_methods
+from django.views import View
+from django.views.decorators.http import require_http_methods
+from django.views.generic.list import ListView
 
 from .forms import AnswerForm, UserForm
 from .models import Answers, Respondents, SampleMetaData
+
+
+@require_http_methods(["GET"])
+def index(request):
+    return render(request, "main_app/index.html")
 
 
 @require_http_methods(["GET", "POST"])
@@ -28,10 +35,32 @@ def register_user(request):
         return render(request, "main_app/register_user.html", {"form": form})
 
 
-@require_http_methods(["GET"])
-def check_user(request):
-    users = get_list_or_404(User)
-    return render(request, "main_app/check_user.html", {"users": users})
+class RegisterUserView(View):
+    user_form_class = UserForm
+    template_name_get = "main_app/register_user.html"
+    redirect_dest_post = "main_app:check_user"
+
+    def get(self, request, *args, **kwargs):
+        form = self.user_form_class()
+        return render(request, self.template_name_get, {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.user_form_class(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                username=form.cleaned_data["username"],
+                email=form.cleaned_data["email"],
+                password=form.cleaned_data["password"],
+            )
+            user.save()
+            return redirect(self.redirect_dest_post)
+
+
+class CheckUserView(ListView):
+    model = User
+    template_name = "main_app/check_user.html"
+    context_object_name = "user_list"
+    paginate_by = 10
 
 
 @require_http_methods(["GET", "POST"])
@@ -54,33 +83,18 @@ def user_page(request, id: int, key1: str):
     return render(request, "main_app/user_page.html", {"user": user, "key1": key1})
 
 
-@require_http_methods(["GET"])
-def news_year_archive(request, year: int):
-    return render(request, "main_app/news_year_archive.html", {"year": year})
+class CheckRespondentsView(ListView):
+    model = Respondents
+    template_name = "main_app/check_respondents.html"
+    context_object_name = "respondents_list"
+    paginate_by = 10
 
 
-@require_http_methods(["GET"])
-def index(request, year_list: list):
-    return render(request, "main_app/index.html", {"year_list": year_list})
-
-
-def latest_created(request):
-    return Respondents.objects.latest("created_at").created_at
-
-
-@require_http_methods(["GET"])
-@condition(last_modified_func=latest_created)
-def respondents(request):
-    all_respondents = get_list_or_404(Respondents)
-    return render(
-        request, "main_app/respondents.html", {"all_respondents": all_respondents}
-    )
-
-
-@require_http_methods(["GET"])
-def answers(request):
-    all_answers = get_list_or_404(Answers)
-    return render(request, "main_app/answers.html", {"all_answers": all_answers})
+class CheckAnswersView(ListView):
+    model = Answers
+    template_name = "main_app/check_answers.html"
+    context_object_name = "answers_list"
+    paginate_by = 10
 
 
 @require_http_methods(["GET"])
