@@ -110,6 +110,9 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
     DATABASES["default"]["HOST"] = "127.0.0.1"
     DATABASES["default"]["PORT"] = 5432
 
+    
+AUTH_USER_MODEL = "main_app.Respondents"
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
