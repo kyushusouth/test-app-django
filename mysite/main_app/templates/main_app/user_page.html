@@ -16,6 +16,15 @@
     </li>
 </ul>
 
+<ul>
+    <li>
+        <a href="{% url 'main_app:answer_respondent_info' user.pk %}">性別と年齢を回答する</a>
+    </li>
+    <li>
+        <a href="{% url 'main_app:eval' %}">評価実験を行う</a>
+    </li>
+</ul>
+
 <form method="post" action="{% url 'main_app:logout' %}">
     {% csrf_token %}
     <button type="submit">ログアウト</button>

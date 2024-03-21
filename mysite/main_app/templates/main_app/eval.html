@@ -3,7 +3,7 @@
 {% block title %}Evaluation Page{% endblock title %}
 
 {% block content %}
-<form action="/main_app/eval" method="post">
+<form action="{% url 'main_app:eval' %}" method="post">
     {% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
