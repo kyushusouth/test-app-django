@@ -14,8 +14,6 @@ urlpatterns = [
         name="check_respondents",
     ),
     path("check_answers", views.CheckAnswersView.as_view(), name="check_answers"),
-    path("register_user", views.RegisterUserView.as_view(), name="register_user"),
-    path("check_user", views.CheckUserView.as_view(), name="check_user"),
     path("user_page", views.user_page, name="user_page"),
     path(
         "login",
@@ -28,5 +26,11 @@ urlpatterns = [
         "logout",
         auth_views.LogoutView.as_view(next_page="main_app:login"),
         name="logout",
+    ),
+    path("signup", views.SignupView.as_view(), name="signup"),
+    path(
+        "answer_respondent_info/<int:pk>",
+        views.RespondentInfoCreateView.as_view(),
+        name="answer_respondent_info",
     ),
 ]
