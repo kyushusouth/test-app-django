@@ -1,5 +1,4 @@
 import json
-import shutil
 import uuid
 from pathlib import Path
 
@@ -10,14 +9,12 @@ def main():
     bucket_name = "test_media_storage"
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
+    blob_list = bucket.list_blobs()
+    for blob in blob_list:
+        blob.delete(if_generation_match=blob.generation)
 
     data_dir = Path("../static/main_app/wav_files")
     data_path_list = list(data_dir.glob("**/*.wav"))
-    data_dir_encrypted = Path("../static/main_app/wav_files_encrypted")
-    if data_dir_encrypted.exists():
-        shutil.rmtree(str(data_dir_encrypted))
-    data_dir_encrypted.mkdir(parents=True, exist_ok=True)
-
     data_list = []
     for pk, data_path in enumerate(data_path_list):
         data_path_split = data_path.parts
@@ -40,15 +37,11 @@ def main():
                 },
             }
         )
-
-        save_path = data_dir_encrypted / f"{new_filename}.wav"
-        shutil.copy(str(data_path), str(save_path))
-
         blob = bucket.blob(f"{new_filename}.wav")
         blob.upload_from_filename(str(data_path))
 
-    with open(f'{__file__.split(".")[0]}.json', "w") as f:
-        json.dump(data_list, f)
+    with open(f'{__file__.split(".")[0]}.json', "w", encoding="utf-8") as f:
+        json.dump(data_list, f, ensure_ascii=False)
 
 
 if __name__ == "__main__":
