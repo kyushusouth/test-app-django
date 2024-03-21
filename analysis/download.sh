@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-DOTENV_PATH=../.env.local
+DOTENV_PATH=../mysite/.env.prod
 source ${DOTENV_PATH}
 
 SERVICE_ACCOUNT_EMAIL_ADDRESS=$(gcloud sql instances describe ${CLOUD_SQL_INSTANCE_NAME} --format="value(serviceAccountEmailAddress)")
