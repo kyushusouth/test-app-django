@@ -12,6 +12,8 @@ class Sex(models.Model):
 class Respondents(AbstractUser):
     sex = models.ForeignKey(Sex, on_delete=models.CASCADE, null=True, blank=True)
     age = models.SmallIntegerField(null=True, blank=True)
+    # is_answerd_form_respondent_info = models.BooleanField(null=True, blank=True)
+    # is_answerd_form_eval = models.BooleanField(null=True, blank=True)
     
     def __str__(self) -> str:
         return self.username
