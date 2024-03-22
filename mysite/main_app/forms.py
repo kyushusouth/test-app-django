@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, RadioSelect
+from django.forms import ModelForm, Select
 
 from .models import Answers, Respondents
 
@@ -23,6 +23,6 @@ class EvaluationForm(ModelForm):
         model = Answers
         fields = ["naturalness", "intelligibility"]
         widgets = {
-            "naturalness": RadioSelect,
-            "intelligibility": RadioSelect,
+            "naturalness": Select,
+            "intelligibility": Select,
         }
