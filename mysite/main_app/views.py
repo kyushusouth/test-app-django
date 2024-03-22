@@ -6,7 +6,6 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
-from django.core.paginator import Paginator
 
 from .forms import (
     EvaluationForm,
@@ -15,7 +14,7 @@ from .forms import (
 from .models import Answers, Respondents, SampleMetaData
 
 
-class SignupView(CreateView):
+class SignupView(LoginRequiredMixin, CreateView):
     form_class = SignUpForm
     template_name = "main_app/signup.html"
     success_url = reverse_lazy("main_app:index")
@@ -25,7 +24,7 @@ class RespondentInfoCreateView(LoginRequiredMixin, UpdateView):
     model = Respondents
     fields = ["sex", "age"]
     template_name = "main_app/respondent_info.html"
-    success_url = reverse_lazy("main_app:user_page")
+    success_url = reverse_lazy("main_app:index")
 
 
 class CheckRespondentsView(LoginRequiredMixin, ListView):
@@ -44,26 +43,17 @@ class CheckAnswersView(LoginRequiredMixin, ListView):
 
 @require_http_methods(["GET"])
 def index(request):
-    return render(request, "main_app/index.html")
-
-
-@login_required
-@require_http_methods(["GET"])
-def user_page(request):
-    return render(request, "main_app/user_page.html", {"user": request.user})
-
-
-@login_required
-@require_http_methods(["GET"])
-def thanks(request):
-    return render(request, "main_app/thanks.html")
+    if request.user.is_authenticated:
+        return render(request, "main_app/index.html")
+    else:
+        return redirect("main_app:login")
 
 
 @login_required
 @require_http_methods(["GET", "POST"])
 def eval(request):
     metadata_list = get_list_or_404(SampleMetaData)
-    metadata_list = metadata_list[:5]
+    metadata_list = metadata_list[:3]
     urls = [x.file_path.url for x in metadata_list]
     AnswerFormSet = modelformset_factory(Answers, form=EvaluationForm, extra=len(urls))
     if request.method == "POST":
@@ -83,7 +73,9 @@ def eval(request):
                     intelligibility=intelligibility,
                 )
                 answer.save()
-            return redirect("main_app:user_page")
+            return redirect("main_app:index")
+        else:
+            return render(request, "main_app/eval.html", {"formset": formset})
     else:
         data = {
             "form-TOTAL_FORMS": str(len(urls)),
