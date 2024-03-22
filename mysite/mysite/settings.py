@@ -59,13 +59,15 @@ else:
 
 
 INSTALLED_APPS = [
-    "main_app.apps.MainAppConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "main_app.apps.MainAppConfig",
+    "django_bootstrap5",
+    "widget_tweaks",
 ]
 
 
@@ -110,7 +112,7 @@ if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
     DATABASES["default"]["HOST"] = "127.0.0.1"
     DATABASES["default"]["PORT"] = 5432
 
-    
+
 AUTH_USER_MODEL = "main_app.Respondents"
 
 
