@@ -13,7 +13,7 @@ def main():
     for blob in blob_list:
         blob.delete(if_generation_match=blob.generation)
 
-    data_dir = Path("../static/main_app/wav_files")
+    data_dir = Path("/Users/minami/dev/python/test-app-django/wav_files")
     data_path_list = list(data_dir.glob("**/*.wav"))
     data_list = []
     for pk, data_path in enumerate(data_path_list):
@@ -29,7 +29,6 @@ def main():
                 "pk": pk + 1,
                 "fields": {
                     "file_path": f"{new_filename}.wav",
-                    "file_name": new_filename,
                     "speaker_name": speaker_name,
                     "model_name": model_name,
                     "sample_name": sample_name,
