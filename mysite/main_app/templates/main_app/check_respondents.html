@@ -7,20 +7,7 @@
 <ul>
     {% for respondents in respondents_list %}
     <li>
-        <ul>
-            <li>
-                {{ respondents.username}}
-            </li>
-            <li>
-                {{ respondents.password}}
-            </li>
-            <li>
-                {{ respondents.sex}}
-            </li>
-            <li>
-                {{ respondents.age}}
-            </li>
-        </ul>
+        {{ respondents.username}}
     </li>
     {% endfor %}
 </ul>
