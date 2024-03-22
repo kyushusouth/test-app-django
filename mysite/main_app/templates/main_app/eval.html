@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}Evaluation Page{% endblock title %}
 
@@ -7,14 +8,21 @@
     {% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
-    <p>{{ form.url }}</p>
-    <audio src="{{ form.url.value }}" controls controlslist="nodownload"></audio>
-    <ul>
-        <li>{{ form.naturalness }}</li>
-        <li>{{ form.intelligibility }}</li>
-    </ul>
-    <hr>
+        <div>
+            <p>{{ form.url }}</p>
+            <audio src="{{ form.url.value }}" controls controlslist="nodownload"></audio>
+            <div class="mt-4">
+                <label for="id_sex" class="form-label">{{ form.naturalness.label }}</label>
+                {% render_field form.naturalness class+="form-select" %}
+            </div>
+            <div class="mt-4">
+                <label for="id_age" class="form-label">{{ form.intelligibility.label }}</label>
+                {% render_field form.intelligibility class+="form-select" %}
+            </div>
+        </div>
     {% endfor %}
-    <input type="submit">
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">提出する</button>
+    </div>
 </form>
 {% endblock content%}

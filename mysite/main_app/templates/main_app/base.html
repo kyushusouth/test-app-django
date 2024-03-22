@@ -1,3 +1,5 @@
+{% load django_bootstrap5 %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,23 +7,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Document{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        .container {
+            max-width: 800px;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="sidebar">
-        {% block sidebar %}
-        <ul>
-            <li><a href="{% url 'main_app:index' %}">Home</a></li>
-            <li><a href="{% url 'main_app:signup' %}">Sign Up</a></li>
-            <li><a href="{% url 'main_app:login' %}">Login</a></li>
-            <li><a href="{% url 'main_app:user_page' %}">User Page</a></li>
-            <li><a href="{% url 'main_app:check_respondents' %}">Check Respondents</a></li>
-            <li><a href="{% url 'main_app:check_answers' %}">Check Answers</a></li>
-        </ul>
-        {% endblock %}
-    </div>
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-dark bg-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'main_app:index' %}">主観評価実験</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                    aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">メニュー</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'main_app:index' %}">Home</a>
+                            </li>
+                            {% if user.is_superuser %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'main_app:signup' %}">回答者登録</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'main_app:check_respondents' %}">回答者一覧</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'main_app:answer_respondent_info' user.pk %}">性別・年齢</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'main_app:eval' %}">練習試行</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'main_app:eval' %}">本番試行1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'main_app:eval' %}">本番試行2</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 
-    <div id="content">
+    <div id="content" class="container mt-5">
         {% block content %}{% endblock %}
     </div>
 </body>

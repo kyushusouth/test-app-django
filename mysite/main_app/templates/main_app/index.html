@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}
+    Home
+{% endblock title %}
 
 {% block content %}
-<h1>Home Page</h1>
+    {% if user.is_superuser %}
+        <p>あなたはスーパーユーザーです。</p>
+	{% else %}
+        <p>あなたはスーパーユーザーではありません。</p>
+	{% endif %}
+	<p>{{ user.username }}</p>
+	<form method="post" action="{% url 'main_app:logout' %}">
+		{% csrf_token %}
+		<div class="d-flex justify-content-end">
+			<button type="submit" class="btn btn-primary">ログアウト</button>
+		</div>
+	</form>
 {% endblock content%}
